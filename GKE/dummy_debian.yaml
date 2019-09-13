@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydebian
+  labels:
+    app: mydebian
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mydebian
+  template:
+    metadata:
+      labels:
+        app: mydebian
+    spec:
+      containers:
+        - name: mydebian-pod
+          image: gcr.io/refreshing-mark-252714/mydebian:3.0
+          command: [ "/bin/bash"]
+          args: ["-c", "while true; do sleep 30; done;"]
