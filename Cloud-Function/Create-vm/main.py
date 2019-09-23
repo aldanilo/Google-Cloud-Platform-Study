@@ -1,6 +1,7 @@
 from googleapiclient import discovery
 from oauth2client.client import GoogleCredentials
 from random import randint
+import yaml
 
 
 # [START create_instance]
@@ -8,13 +9,24 @@ def main(event, context):
     credentials = GoogleCredentials.get_application_default()
     service = discovery.build('compute', 'v1', credentials=credentials)
     
-    project = 'refreshing-mark-252714'
-    region = 'us-central1'
-    zone = 'us-central1-a'
-    bucket = 'refreshing-mark-252714'
-    instance_name = "big-image-processing-" + str(randint(0, 100))
-    machine_type = "n1-standard-1"
-    startup_script = open("startup-script.sh", 'r')
+   with open("config.yaml", 'r') as yamlfile:
+        cfg = yaml.full_load(yamlfile)
+
+    project_configs = cfg['project']
+    project = project_configs.get('project-id')
+    region = project_configs.get('region')
+    zone = project_configs.get('zone')
+
+    bucket_configs = cfg['bucket']
+    bucket = bucket_configs.get('bucket-name')
+
+    instance_configs = cfg['instance']
+    instance_prefix_name = instance_configs.get('instance-prefix-name')
+    instance_name = instance_prefix_name + str(randint(0, 100))
+    machine_type = instance_configs.get('machine-type')
+
+    startup_script = instance_configs.get('startup-script')
+    startup_script = open(startup_script, 'r')
     sst = startup_script.read()
     
     config = {
