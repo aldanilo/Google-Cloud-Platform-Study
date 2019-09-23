@@ -10,8 +10,16 @@ INSTANCE_NAME=$(curl http://metadata/computeMetadata/v1/instance/attributes/inst
 FILE_NAME=$(curl http://metadata/computeMetadata/v1/instance/attributes/file_name -H "Metadata-Flavor: Google")
 PROJECT_ID=$(gcloud config list --format 'value(core.project)')
 
-echo $BUCKET $ZONE $INSTANCE_NAME $FILE_NAME $PROJECT_ID> randomtext.txt
+cat > ~/delete_instance.sh <<EOF
+PROJECT_ID=$(gcloud config list --format 'value(core.project)')
+ZONE=$(curl http://metadata/computeMetadata/v1/instance/attributes/zone -H "Metadata-Flavor: Google")
+INSTANCE_NAME=$(curl http://metadata/computeMetadata/v1/instance/attributes/instance_name -H "Metadata-Flavor: Google")
 
+curl -X POST "https://us-central1-refreshing-mark-252714.cloudfunctions.net/delete-vm" -H "Content-Type:application/json" \
+--data '{"project": "'$PROJECT_ID'","zone": "'$ZONE'","name": "'$INSTANCE_NAME'"}'
+EOF
+
+chmod +x ~/delete_instance.sh
 #Comandos de copiar a aplicação do GS para a VM
 #gsutil cp gs://$BUCKET/app.py /app/
 
