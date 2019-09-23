@@ -56,6 +56,10 @@ def main(event, context):
                 {
                     "key": "instance_name",
                     "value": instance_name
+                },
+                {
+                    "key": "file_name",
+                    "value": event['name']
                 }
             ]
         },
