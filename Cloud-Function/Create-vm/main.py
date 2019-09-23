@@ -9,17 +9,19 @@ def main(event, context):
     service = discovery.build('compute', 'v1', credentials=credentials)
     
     project = 'refreshing-mark-252714'
+    region = 'us-central1'
     zone = 'us-central1-a'
     bucket = 'refreshing-mark-252714'
     instance_name = "big-image-processing-" + str(randint(0, 100))
+    machine_type = "n1-standard-1"
     startup_script = open("startup-script.sh", 'r')
     sst = startup_script.read()
     
     config = {
         "kind": "compute#instance",
         "name": instance_name,
-        "zone": "projects/refreshing-mark-252714/zones/us-central1-a",
-        "machineType": "projects/refreshing-mark-252714/zones/us-central1-a/machineTypes/n1-standard-1",
+        "zone": "projects/"+project+"/zones/"+zone,
+        "machineType": "projects/"+project+"/zones/"+zone+"/machineTypes/"+machine_type,
         "displayDevice": {
             "enableDisplay": False
         },
@@ -30,10 +32,10 @@ def main(event, context):
                 "boot": True,
                 "mode": "READ_WRITE",
                 "autoDelete": True,
-                "deviceName": "instance-1",
+                "deviceName": instance_name,
                 "initializeParams": {
                     "sourceImage": "projects/debian-cloud/global/images/debian-9-stretch-v20190916",
-                    "diskType": "projects/refreshing-mark-252714/zones/us-central1-a/diskTypes/pd-standard",
+                    "diskType": "projects/"+project+"/zones/"+zone+"/diskTypes/pd-standard",
                     "diskSizeGb": "10"
                 },
             }
@@ -67,7 +69,7 @@ def main(event, context):
         "networkInterfaces": [
             {
                 "kind": "compute#networkInterface",
-                "subnetwork": "projects/refreshing-mark-252714/regions/us-central1/subnetworks/default",
+                "subnetwork": "projects/"+project+"/regions/"+region+"/subnetworks/default",
                 "accessConfigs": [
                     {
                         "kind": "compute#accessConfig",
