@@ -5,8 +5,8 @@ apt-get install update
 #Aqui pode colocar os nomes das imagens, bucket de acesso e bucket de destino. 
 #Qualquer variável pode ser passada por aqui.
 BUCKET=$(curl http://metadata/computeMetadata/v1/instance/attributes/bucket -H "Metadata-Flavor: Google")
-ZONE=$(curl http://metadata/computeMetadata/v1/instance/attributes/bucket -H "Metadata-Flavor: Google")
-INSTANCE_NAME=$(curl http://metadata/computeMetadata/v1/instance/attributes/bucket -H "Metadata-Flavor: Google")
+ZONE=$(curl http://metadata/computeMetadata/v1/instance/attributes/zone -H "Metadata-Flavor: Google")
+INSTANCE_NAME=$(curl http://metadata/computeMetadata/v1/instance/attributes/instance_name -H "Metadata-Flavor: Google")
 PROJECT_ID=$(gcloud config list --format 'value(core.project)')
 
 
