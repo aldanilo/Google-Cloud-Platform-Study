@@ -6,13 +6,15 @@ from random import randint
 # [START create_instance]
 def main(event, context):
     credentials = GoogleCredentials.get_application_default()
+    service = discovery.build('compute', 'v1', credentials=credentials)
+    
     project = 'refreshing-mark-252714'
     zone = 'us-central1-a'
     bucket = 'refreshing-mark-252714'
     instance_name = "big-image-processing-" + str(randint(0, 100))
-    service = discovery.build('compute', 'v1', credentials=credentials)
     startup_script = open("startup-script.sh", 'r')
     sst = startup_script.read()
+    
     config = {
         "kind": "compute#instance",
         "name": instance_name,
@@ -46,6 +48,14 @@ def main(event, context):
                 {
                     "key": "bucket",
                     "value": bucket
+                },
+                {
+                    "key": "zone",
+                    "value": zone
+                },
+                {
+                    "key": "instance_name",
+                    "value": instance_name
                 }
             ]
         },
