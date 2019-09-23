@@ -1,0 +1,12 @@
+project:
+    project-id: refreshing-mark-252714
+    region: us-central1
+    zone: us-central1-a
+
+bucket:
+    bucket-name: refreshing-mark-252714
+
+instance:
+    instance-prefix-name: big-image-processing-
+    machine-type: n1-standard-1
+    startup-script: startup-script.sh
