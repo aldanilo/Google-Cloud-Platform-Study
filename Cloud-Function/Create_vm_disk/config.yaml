@@ -1,10 +1,10 @@
 project:
-    project-id: refreshing-mark-252714
+    project-id: 
     region: us-central1
     zone: us-central1-a
 
 bucket:
-    bucket-name: refreshing-mark-252714
+    bucket-name: 
 
 instance:
     instance-prefix-name: montatiles-
