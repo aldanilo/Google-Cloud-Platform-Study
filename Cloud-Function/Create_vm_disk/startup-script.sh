@@ -16,7 +16,7 @@ PROJECT_ID=$(gcloud config list --format 'value(core.project)')
 ZONE=$(curl http://metadata/computeMetadata/v1/instance/attributes/zone -H "Metadata-Flavor: Google")
 INSTANCE_NAME=$(curl http://metadata/computeMetadata/v1/instance/attributes/instance_name -H "Metadata-Flavor: Google")
 
-curl -X POST "https://us-central1-refreshing-mark-252714.cloudfunctions.net/delete-vm" -H "Content-Type:application/json" \
+curl -X POST "[url function]" -H "Content-Type:application/json" \
 --data '{"project": "'$PROJECT_ID'","zone": "'$ZONE'","name": "'$INSTANCE_NAME'"}'
 EOF
 
